@@ -9,11 +9,7 @@ export const getPlaylist = async () => {
         COOKIES_KEY.spotifyAccessToken,
       )?.value}`,
     },
-    next: {
-      // 30 sec
-      // プレイリストの更新が行われた後に反映したいので短めに設定
-      revalidate: 30,
-    },
+    cache: "no-store",
   });
 
   return res.ok

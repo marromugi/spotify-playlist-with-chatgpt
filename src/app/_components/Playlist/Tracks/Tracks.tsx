@@ -58,8 +58,6 @@ export const Tracks = async ({
     valence: calculate.valence / audioFeatures.length,
   };
 
-  console.log(result);
-
   return (
     <ul>
       {tracks.items

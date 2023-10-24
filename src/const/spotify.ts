@@ -9,3 +9,5 @@ export const SPOTIFY_ENV = {
 
 /**Note: this parameter can use only server-side */
 export const SPOTIFY_REDIRECT_URI = `${APP_URL}/api/redirect`;
+
+export const SPOTIFY_PLAYER_NAME = "magi";

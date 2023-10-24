@@ -7,8 +7,6 @@ export const RecentlyPlayedTracks = async () => {
     return <></>;
   }
 
-  console.log(recent);
-
   return (
     <section>
       {recent.items.map(({ track }) => (

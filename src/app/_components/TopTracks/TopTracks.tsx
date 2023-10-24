@@ -1,7 +1,7 @@
-import { getTopTracks } from "@/api";
+import { getMyTopTracks } from "@/api";
 
 export const TopTracks = async () => {
-  const tracks = await getTopTracks();
+  const tracks = await getMyTopTracks();
 
   if (!tracks) {
     return <></>;

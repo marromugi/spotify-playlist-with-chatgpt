@@ -2,11 +2,14 @@ import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { REDIRECT_SEARCH_PARAMS_KEY } from "./_const";
 import { ROUTES } from "@/const/route";
-import { SPOTIFY_ENV, SPOTIFY_REDIRECT_URI } from "@/const/spotify";
-import { generateUrlSearchParam } from "@/utils/query";
+import { SPOTIFY_REDIRECT_URI } from "@/const/spotify";
+import {
+  generateSpotifyBasicAuthorizationToken,
+  generateUrlSearchParam,
+} from "@/utils/query";
 import { COOKIES_KEY } from "@/const/cookie";
 import { cookies } from "next/headers";
-import { SpotifyTokenResponse } from "./_type";
+import { SpotifyTokenResponse } from "@/types/spotify";
 
 export const GET = async (request: NextRequest) => {
   if (
@@ -21,9 +24,7 @@ export const GET = async (request: NextRequest) => {
   const res = await fetch("https://accounts.spotify.com/api/token", {
     method: "POST",
     headers: {
-      Authorization: `Basic ${Buffer.from(
-        `${SPOTIFY_ENV.clientId}:${SPOTIFY_ENV.clientSecret}`,
-      ).toString("base64")}`,
+      Authorization: generateSpotifyBasicAuthorizationToken(),
       "Content-Type": "application/x-www-form-urlencoded",
     },
     body: generateUrlSearchParam({
@@ -50,7 +51,6 @@ export const GET = async (request: NextRequest) => {
     cookies().set({
       name: COOKIES_KEY.spotifyRefreshToken,
       value: data.refresh_token,
-      maxAge: data.expires_in,
       httpOnly: true,
       path: "/",
     });

@@ -1,10 +1,9 @@
 import {
   LoginButton,
   PlaylistButton,
-  RecentlyPlayedTracks,
+  SearchFrom,
   TopTracks,
 } from "./_components";
-import { Playlist } from "./_components/Playlist";
 import { UserButton } from "./_components/UserButton/UserButton";
 
 export default async function Home() {
@@ -15,6 +14,7 @@ export default async function Home() {
       <PlaylistButton />
       {/* <Playlist /> */}
       {/* <RecentlyPlayedTracks /> */}
+      <SearchFrom />
       <TopTracks />
     </>
   );

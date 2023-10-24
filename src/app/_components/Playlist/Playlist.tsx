@@ -1,8 +1,8 @@
-import { getPlaylist } from "@/api";
+import { getMyPlaylist } from "@/api";
 import { Tracks } from "./Tracks";
 
 export const Playlist = async () => {
-  const playlists = await getPlaylist();
+  const playlists = await getMyPlaylist();
 
   if (!playlists) {
     return <></>;

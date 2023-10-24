@@ -7,7 +7,6 @@ export const PlaylistButton = () => {
     <Button
       onClick={async () => {
         const res = await fetch("/api/me/playlist");
-        console.log(await res.json());
       }}
     >
       Spotify Playlist

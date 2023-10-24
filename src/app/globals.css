@@ -29,3 +29,14 @@ body {
 span {
   display: block;
 }
+
+@layer utilities {
+  .tw-scrollbar-hidden {
+    -ms-overflow-style: none; /* IE, Edge 対応 */
+    scrollbar-width: none; /* Firefox 対応 */
+  }
+  .tw-scrollbar-hidden::-webkit-scrollbar {
+    /* Chrome, Safari 対応 */
+    display: none;
+  }
+}

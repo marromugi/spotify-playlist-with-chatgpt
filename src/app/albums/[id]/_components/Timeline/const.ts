@@ -1,0 +1,1 @@
+export const TIMELINE_MINITE_WIDTH = 100;

@@ -1,32 +1,16 @@
-import { COOKIES_KEY } from "@/const/cookie";
+import { getUser } from "@/api";
 import { API_STATUS_TEXT } from "@/const/message";
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
   // Note: get user profile
   // ref: https://developer.spotify.com/documentation/web-api/reference/get-users-profile
-  const res = await fetch(
-    `https://api.spotify.com/v1/user/${request.nextUrl.searchParams.get(
-      "userId",
-    )}`,
-    {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${cookies().get(
-          COOKIES_KEY.spotifyAccessToken,
-        )}`,
-      },
-      cache: "force-cache",
-      next: {
-        revalidate: 60 * 60, // 1 hour
-      },
-    },
-  );
+  const user = await getUser({
+    id: request.nextUrl.searchParams.get("userId") ?? "",
+  });
 
-  if (res.ok) {
-    const data = await res.json();
-    return Response.json(data);
+  if (user) {
+    return Response.json(user);
   }
 
   return new Response("ユーザー情報を取得できませんでした", {

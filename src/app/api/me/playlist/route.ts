@@ -1,8 +1,8 @@
-import { getPlaylist } from "@/api";
+import { getMyPlaylist } from "@/api";
 import { API_STATUS_TEXT } from "@/const/message";
 
 export const GET = async () => {
-  const playlist = await getPlaylist();
+  const playlist = await getMyPlaylist();
 
   if (playlist) {
     return Response.json(playlist);

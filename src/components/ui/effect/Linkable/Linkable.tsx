@@ -1,12 +1,14 @@
-import { ComponentProps, forwardRef } from "react";
+import Link from "next/link";
+import { LinkableProps } from "./type";
 
-export const Linkable = forwardRef<
-  HTMLAnchorElement,
-  ComponentProps<"a">
->((props, ref) => {
-  return (
-    <a ref={ref} {...props}>
-      {props.children}
-    </a>
-  );
-});
+export const Linkable = ({
+  href,
+  children,
+  external = false,
+}: LinkableProps) => {
+  if (external) {
+    return <a href={href}>{children}</a>;
+  } else {
+    return <Link href={href}>{children}</Link>;
+  }
+};

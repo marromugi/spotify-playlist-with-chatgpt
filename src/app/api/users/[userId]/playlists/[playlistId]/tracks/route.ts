@@ -1,4 +1,3 @@
-import { getPlaylist } from "@/api";
 import { getPlaylistTracks } from "@/api/getPlaylistTracks";
 import { API_STATUS_TEXT } from "@/const/message";
 import { NextRequest } from "next/server";

@@ -16,10 +16,8 @@ import {
   getArtistThumbnailSrc,
 } from "@/utils/features/artist";
 import { AlbumSection, TrackSection } from "./_components/section";
-import Link from "next/link";
-import { Timeline } from "./_components";
 
-export const AlbumPage = async ({ params }: AlbumIdPageProps) => {
+export default async function AlbumPage({ params }: AlbumIdPageProps) {
   const album = await getAlbum({ id: params.id });
   const artists = await getArtists({
     ids: album?.artists.map((artist) => artist.id) ?? [],
@@ -147,6 +145,4 @@ export const AlbumPage = async ({ params }: AlbumIdPageProps) => {
       </div>
     </div>
   );
-};
-
-export default AlbumPage;
+}

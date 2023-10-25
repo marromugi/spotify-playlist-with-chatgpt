@@ -3,7 +3,9 @@ const nextConfig = {
   experimental: {
     serverActions: true,
   },
-  ignoreDuringBuilds: true,
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
 };
 
 module.exports = nextConfig;

@@ -1,12 +1,10 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { FormFieldWrapper } from "./FormFieldWrapper";
-import { Box, TextField } from "@/components/ui";
-import { z } from "zod";
 
 const Dummy = () => {
   return (
     <FormFieldWrapper label={"メールアドレス"} name="name">
-      <Box>フィールドエリア</Box>
+      フィールドエリア
     </FormFieldWrapper>
   );
 };

@@ -10,12 +10,7 @@ export default async function Home() {
   return (
     <>
       <LoginButton />
-      <UserButton />
-      <PlaylistButton />
-      {/* <Playlist /> */}
-      {/* <RecentlyPlayedTracks /> */}
       <SearchFrom />
-      <TopTracks />
     </>
   );
 }

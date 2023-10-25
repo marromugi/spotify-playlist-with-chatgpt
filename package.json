@@ -15,13 +15,13 @@
     "@hookform/resolvers": "^3.3.2",
     "@uidotdev/usehooks": "^2.4.0",
     "clsx": "^2.0.0",
-    "jotai": "^2.4.3",
     "next": "13.5.4",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.47.0",
     "swr": "^2.2.4",
-    "zod": "^3.22.4"
+    "zod": "^3.22.4",
+    "zustand": "^4.4.4"
   },
   "devDependencies": {
     "@storybook/addon-actions": "^7.4.6",

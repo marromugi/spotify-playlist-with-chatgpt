@@ -8,7 +8,6 @@ import { cookies, headers } from "next/headers";
 import { NextRequest } from "next/server";
 
 export const GET = async (request: NextRequest) => {
-  console.log(cookies().getAll());
   const res = await fetch(`https://accounts.spotify.com/api/token`, {
     method: "POST",
     headers: {
@@ -37,8 +36,6 @@ export const GET = async (request: NextRequest) => {
       status: 200,
       headers: Object.fromEntries(headers()),
     });
-    console.log(request.cookies.getAll());
-    console.log(request);
 
     return r;
   }

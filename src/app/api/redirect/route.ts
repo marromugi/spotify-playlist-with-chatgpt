@@ -55,7 +55,7 @@ export const GET = async (request: NextRequest) => {
       path: "/",
     });
 
-    redirect(ROUTES.playlist);
+    redirect(ROUTES.top);
   }
 
   redirect(ROUTES.top);

@@ -11,9 +11,7 @@ export const AppProvider = ({
     <>
       <SpotifyProvider
         token={cookies().get(COOKIES_KEY.spotifyAccessToken)?.value}
-      >
-        {""}
-      </SpotifyProvider>
+      />
       {children}
     </>
   );

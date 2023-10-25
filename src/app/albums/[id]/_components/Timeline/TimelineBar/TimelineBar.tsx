@@ -3,18 +3,15 @@
 import clsx from "clsx";
 import { TimelineBarProps } from "./type";
 import { Clickable } from "@/components/ui";
-import { useAtomValue } from "jotai";
-import { playerAtom } from "@/const/atom";
-//import { handleClickTimeline } from "./utils";
 import { calcTrackPosition } from "../utils";
-import { usePlay } from "@/hooks/features/player";
+import { usePlay, usePlayer } from "@/hooks/features/player";
 
 export const TimelineBar = ({
   album,
   position,
   width,
 }: TimelineBarProps) => {
-  const { deviceId } = useAtomValue(playerAtom);
+  const { deviceId } = usePlayer();
   const { trigger } = usePlay({ deviceId: deviceId ?? "" });
 
   return (
@@ -39,7 +36,7 @@ export const TimelineBar = ({
     >
       {Array.from(Array(50)).map((i) => (
         <span
-          key={i}
+          key={`timeline-bar-${position}-${i}`}
           className={clsx("tw-h-10 tw-w-10", "tw-bg-sumi-800")}
         ></span>
       ))}

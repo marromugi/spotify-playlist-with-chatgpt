@@ -5,7 +5,5 @@ export const convertToUniqueAlbums = (
     albums.map((album) => [album.id, album]),
   );
 
-  console.log(uniqueAlbumsMap.values());
-
   return Array.from(uniqueAlbumsMap.values());
 };

@@ -5,12 +5,17 @@ import { convertMillSecondsToMin } from "@/utils/datetime";
 import { generateArtistsNameText } from "@/utils/features/artist";
 import clsx from "clsx";
 import { TrackSectionProps } from "./type";
-import { useAtomValue } from "jotai";
-import { playerAtom } from "@/const/atom";
-import { usePlay } from "@/hooks/features/player";
+import {
+  usePlay,
+  usePlayback,
+  usePlayer,
+} from "@/hooks/features/player";
+import style from "./style.module.css";
+import { PlayCircleIcon } from "@heroicons/react/24/solid";
 
 export const TrackSection = ({ album }: TrackSectionProps) => {
-  const { deviceId } = useAtomValue(playerAtom);
+  const { deviceId } = usePlayer();
+  const { playback } = usePlayback();
   const { trigger } = usePlay({ deviceId: deviceId ?? "" });
 
   const handleRowClick = (position: number) => {
@@ -29,30 +34,63 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
     >
       <table>
         <tbody>
-          {album?.tracks.items.map((track, i) => (
-            <tr
-              className={clsx(
-                "tw-h-10",
-                "tw-gap-4",
-                "tw-text-sm",
-                "tw-text-sumi-300",
-              )}
-              tabIndex={0}
-              role="button"
-              onClick={() => handleRowClick(i)}
-            >
-              <td>{i + 1}</td>
-              <td
+          {album?.tracks.items.map((track, i) => {
+            // Note: 同じ曲でもID等が異なるため、名前とアルバムのURIで比較
+            const isPlaying =
+              track.name ===
+                playback?.track_window.current_track.name &&
+              album.uri ===
+                playback.track_window.current_track.album.uri;
+            return (
+              <tr
+                key={`track-section-${track.id}`}
                 className={clsx(
-                  "tw-font-semibold tw-text-white tw-text-base",
+                  "tw-h-16",
+                  "tw-relative",
+                  "tw-text-sm",
+                  "tw-rounded-md",
+                  "tw-text-sumi-300",
+                  // Note: ホバー時の背景色よりも文字を上に表示するためにz-indexを設定
+                  "tw-z-10",
+                  "[&>td]:tw-pl-4 last:[&>td]:tw-pr-4",
+                  style.row,
                 )}
+                tabIndex={0}
+                role="button"
+                onClick={() => handleRowClick(i)}
               >
-                {track.name}
-              </td>
-              <td>{generateArtistsNameText(track.artists)}</td>
-              <td>{convertMillSecondsToMin(track.duration_ms)}</td>
-            </tr>
-          ))}
+                <td>
+                  <span
+                    className={clsx(
+                      "tw-flex tw-items-center tw-justify-center",
+                      "tw-w-6",
+                    )}
+                  >
+                    {isPlaying ? (
+                      <PlayCircleIcon className={clsx("tw-w-6")} />
+                    ) : (
+                      i + 1
+                    )}
+                  </span>
+                </td>
+                <td
+                  className={clsx(
+                    "tw-font-semibold tw-text-white tw-text-base",
+                  )}
+                >
+                  <span className={clsx("tw-line-clamp-1")}>
+                    {track.name}
+                  </span>
+                </td>
+                <td>
+                  <span className={clsx("tw-line-clamp-1")}>
+                    {generateArtistsNameText(track.artists)}
+                  </span>
+                </td>
+                <td>{convertMillSecondsToMin(track.duration_ms)}</td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </Card>

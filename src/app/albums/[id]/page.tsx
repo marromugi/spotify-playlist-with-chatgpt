@@ -15,10 +15,9 @@ import {
   generateArtistsNameText,
   getArtistThumbnailSrc,
 } from "@/utils/features/artist";
-import { convertMillSecondsToMin } from "@/utils/datetime";
-import { ROUTES } from "@/const/route";
-import { TrackSection } from "./_components/section";
+import { AlbumSection, TrackSection } from "./_components/section";
 import Link from "next/link";
+import { Timeline } from "./_components";
 
 export const AlbumPage = async ({ params }: AlbumIdPageProps) => {
   const album = await getAlbum({ id: params.id });
@@ -28,7 +27,7 @@ export const AlbumPage = async ({ params }: AlbumIdPageProps) => {
   const artist = artists[0];
   const albums = await getArtistAllAlbums({ id: artist.id });
 
-  if (!album) {
+  if (!album || !albums) {
     return <>Album not found</>;
   }
 
@@ -132,47 +131,20 @@ export const AlbumPage = async ({ params }: AlbumIdPageProps) => {
             )}
           >
             <TrackSection album={album} />
-            <Card
-              className={clsx(
-                "tw-overflow-x-auto",
-                "tw-scrollbar-hidden",
-                "tw-h-40",
-                "tw-flex-shrink-0",
-              )}
-            >
-              <div
-                className={clsx("tw-flex tw-items-center", "tw-gap-3")}
-              >
-                {albums?.items.map((a) => (
-                  <Link
-                    key={a.id}
-                    className={clsx(
-                      "tw-relative tw-h-32",
-                      "tw-flex-shrink-0",
-                    )}
-                    href={ROUTES.album(a.id)}
-                  >
-                    <Image
-                      src={a.images[0].url}
-                      alt={a.name}
-                      className={clsx(
-                        "tw-rounded",
-                        "tw-relative tw-h-full",
-                        "tw-flex-shrink-0",
-                      )}
-                    />
-                  </Link>
-                ))}
-                {albums?.items.length}
-              </div>
-            </Card>
+            <AlbumSection albums={albums} />
           </section>
         </div>
-        <Card className={clsx("tw-h-28 tw-mb-4", "tw-flex-shrink-0")}>
-          {"asfa"}
+        <Card
+          className={clsx(
+            "tw-h-28 tw-mb-4",
+            "tw-flex-shrink-0",
+            "tw-overflow-x-auto tw-overflow-y-hidden",
+            "tw-scrollbar-hidden",
+          )}
+        >
+          {/* <Timeline album={album} artists={artists} /> */}
         </Card>
       </div>
-      {/* <Timeline album={album} artists={artists} /> */}
     </div>
   );
 };

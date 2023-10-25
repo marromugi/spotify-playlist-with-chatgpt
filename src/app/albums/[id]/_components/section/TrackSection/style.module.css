@@ -1,0 +1,15 @@
+.row:before {
+  content: "";
+  position: absolute;
+  height: 64px;
+  width: 100%;
+  border-radius: 10px;
+  transition: 0.3s;
+  opacity: 0.5;
+  z-index: -1;
+}
+
+.row:hover::before {
+  background: #fff;
+  @apply tw-bg-sumi-700;
+}

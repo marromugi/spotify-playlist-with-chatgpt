@@ -1,20 +1,14 @@
 // Note: window参照するため、use client
 "use client";
 
-import { playerAtom } from "@/const/atom";
 import { SPOTIFY_PLAYER_NAME } from "@/const/spotify";
-import { useSetAtom } from "jotai";
+import { usePlayback, usePlayer } from "@/hooks/features/player";
 import Script from "next/script";
 import { useEffect } from "react";
 
-export const SpotifyProvider = ({
-  token,
-  children,
-}: {
-  token?: string;
-  children: React.ReactNode;
-}) => {
-  const setPlayer = useSetAtom(playerAtom);
+export const SpotifyProvider = ({ token }: { token?: string }) => {
+  const { set: setPlayback } = usePlayback();
+  const { set: setPlayer } = usePlayer();
   useEffect(() => {
     window.onSpotifyWebPlaybackSDKReady = () => {
       const player = new Spotify.Player({
@@ -54,6 +48,7 @@ export const SpotifyProvider = ({
 
       player.addListener("player_state_changed", (state) => {
         console.error(state);
+        setPlayback({ playback: state });
       });
 
       player.connect().then((r) => {
@@ -77,7 +72,6 @@ export const SpotifyProvider = ({
   return (
     <>
       <Script src="https://sdk.scdn.co/spotify-player.js" />
-      {children}
     </>
   );
 };

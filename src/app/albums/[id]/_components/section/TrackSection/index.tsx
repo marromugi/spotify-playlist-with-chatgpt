@@ -12,10 +12,9 @@ import {
 } from "@/hooks/features/player";
 import style from "./style.module.css";
 import { PlayCircleIcon } from "@heroicons/react/24/solid";
-import { useEffect } from "react";
 
 export const TrackSection = ({ album }: TrackSectionProps) => {
-  const { deviceId, player } = usePlayer();
+  const { deviceId } = usePlayer();
   const { playback } = usePlayback();
   const { trigger } = usePlay({ deviceId: deviceId ?? "dsg" });
 
@@ -43,18 +42,6 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
         "tw-scrollbar-hidden",
       )}
     >
-      <button
-        onClick={() => {
-          trigger({
-            context_uri: album.uri,
-            offset: {
-              position: 0,
-            },
-          });
-        }}
-      >
-        activateMe
-      </button>
       <table>
         <tbody>
           {album?.tracks.items.map((track, i) => {

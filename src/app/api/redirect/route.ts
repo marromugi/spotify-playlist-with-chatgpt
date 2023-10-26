@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import { NextRequest } from "next/server";
 import { REDIRECT_SEARCH_PARAMS_KEY } from "./_const";
 import { ROUTES } from "@/const/route";
-import { SPOTIFY_REDIRECT_URI } from "@/const/spotify";
+import { SPOTIFY_ENV, SPOTIFY_REDIRECT_URI } from "@/const/spotify";
 import {
   generateSpotifyBasicAuthorizationToken,
   generateUrlSearchParam,
@@ -31,7 +31,7 @@ export const GET = async (request: NextRequest) => {
       code: request.nextUrl.searchParams.get(
         REDIRECT_SEARCH_PARAMS_KEY.code,
       ),
-      redirect_uri: SPOTIFY_REDIRECT_URI,
+      redirect_uri: SPOTIFY_ENV.redirectUri,
       grant_type: "authorization_code",
     }),
     cache: "no-store",

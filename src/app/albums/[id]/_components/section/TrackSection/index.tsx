@@ -12,9 +12,11 @@ import {
 } from "@/hooks/features/player";
 import style from "./style.module.css";
 import { PlayCircleIcon } from "@heroicons/react/24/solid";
+import { useEffect } from "react";
+import { APP_URL } from "@/const/app";
 
 export const TrackSection = ({ album }: TrackSectionProps) => {
-  const { deviceId } = usePlayer();
+  const { deviceId, player } = usePlayer();
   const { playback } = usePlayback();
   const { trigger } = usePlay({ deviceId: deviceId ?? "dsg" });
 
@@ -24,16 +26,37 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
      * Safariでは、一度どこかで再生されていないとプレイヤーがロックされるため、
      * 無音の音源を再生してロックを解除する
      */
-    const audio = new Audio("/audio/silence.mp3");
-    audio.play();
+    // const audio = new Audio("/audio/_silence.mp3");
+    // await audio.play();
 
+    await player?.resume();
     await trigger({
       context_uri: album.uri,
       offset: {
         position,
       },
     });
+
+    // await player?.resume();
+
+    // await player?.resume();
   };
+
+  useEffect(() => {
+    if (deviceId) {
+      fetch(`${APP_URL}/api/transfer?deviceId=${deviceId}`, {
+        method: "PUT",
+        body: JSON.stringify({ play: false }),
+        cache: "no-store",
+      });
+      // trigger({
+      //   context_uri: album.uri,
+      //   offset: {
+      //     position: 0,
+      //   },
+      // });
+    }
+  }, [deviceId]);
 
   return (
     <Card
@@ -42,6 +65,19 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
         "tw-scrollbar-hidden",
       )}
     >
+      <button
+        onClick={async () => {
+          await player?.resume();
+          await trigger({
+            context_uri: album.uri,
+            offset: {
+              position: 1,
+            },
+          });
+        }}
+      >
+        aaa
+      </button>
       <table>
         <tbody>
           {album?.tracks.items.map((track, i) => {
@@ -67,7 +103,7 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
                 )}
                 tabIndex={0}
                 role="button"
-                onClick={async () => await handleRowClick(i)}
+                onClick={() => handleRowClick(i)}
               >
                 <td>
                   <span

@@ -14,3 +14,4 @@ export * from "./getUserPlaylist";
 export * from "./getUser";
 export * from "./getArtistAlbums";
 export * from "./getArtistAllAlbum";
+export * from "./transfer";

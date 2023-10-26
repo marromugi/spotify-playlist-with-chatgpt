@@ -12,16 +12,27 @@ import {
 } from "@/hooks/features/player";
 import style from "./style.module.css";
 import { PlayCircleIcon } from "@heroicons/react/24/solid";
+import { useEffect } from "react";
 
 export const TrackSection = ({ album }: TrackSectionProps) => {
-  const { deviceId } = usePlayer();
+  const { deviceId, player } = usePlayer();
   const { playback } = usePlayback();
-  const { trigger } = usePlay({ deviceId: deviceId ?? "" });
+  const { trigger } = usePlay({ deviceId: deviceId ?? "dsg" });
 
-  const handleRowClick = (position: number) => {
-    trigger({
+  const handleRowClick = async (position: number) => {
+    /**
+     * Hack:
+     * Safariでは、一度どこかで再生されていないとプレイヤーがロックされるため、
+     * 無音の音源を再生してロックを解除する
+     */
+    const audio = new Audio("/audio/silence.mp3");
+    audio.play();
+
+    await trigger({
       context_uri: album.uri,
-      offset: { position },
+      offset: {
+        position,
+      },
     });
   };
 
@@ -32,6 +43,18 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
         "tw-scrollbar-hidden",
       )}
     >
+      <button
+        onClick={() => {
+          trigger({
+            context_uri: album.uri,
+            offset: {
+              position: 0,
+            },
+          });
+        }}
+      >
+        activateMe
+      </button>
       <table>
         <tbody>
           {album?.tracks.items.map((track, i) => {
@@ -57,7 +80,7 @@ export const TrackSection = ({ album }: TrackSectionProps) => {
                 )}
                 tabIndex={0}
                 role="button"
-                onClick={() => handleRowClick(i)}
+                onClick={async () => await handleRowClick(i)}
               >
                 <td>
                   <span

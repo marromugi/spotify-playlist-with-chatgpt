@@ -26,6 +26,8 @@ export const SpotifyProvider = ({ token }: { token?: string }) => {
           player,
           deviceId: device_id,
         });
+
+        player.activateElement();
       });
 
       // Not Ready
@@ -34,25 +36,29 @@ export const SpotifyProvider = ({ token }: { token?: string }) => {
       });
 
       player.addListener("initialization_error", ({ message }) => {
-        console.error(message);
+        console.error("initError", message);
       });
 
       player.addListener("authentication_error", ({ message }) => {
-        console.error(message);
+        console.error("auth_error", message);
         // TODO: refresh token
       });
 
       player.addListener("account_error", ({ message }) => {
-        console.error(message);
+        console.error("account_Error", message);
       });
 
       player.addListener("player_state_changed", (state) => {
-        console.error(state);
+        console.log(state);
         setPlayback({ playback: state });
       });
 
       player.connect().then((r) => {
         console.log(r);
+      });
+
+      player.activateElement().then(() => {
+        console.log("player active");
       });
 
       return () => {
